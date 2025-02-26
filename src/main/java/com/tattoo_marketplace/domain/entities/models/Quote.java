@@ -1,8 +1,10 @@
 package com.tattoo_marketplace.domain.entities.models;
 
-import com.tattoo_marketplace.entities.models.User;
-import com.tattoo_marketplace.entities.models.TattooArtist;
-import com.tattoo_marketplace.entities.models.Status;
+import com.tattoo_marketplace.domain.entities.models.User;
+import com.tattoo_marketplace.domain.entities.models.TattooArtist;
+import com.tattoo_marketplace.domain.entities.models.Status;
+import com.tattoo_marketplace.domain.entities.models.Image;
+import com.tattoo_marketplace.domain.entities.models.Imageable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,6 +15,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -55,5 +62,8 @@ public class Quote implements Imageable {
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
     private Status status;
+
+    @OneToMany(mappedBy = "entity")
+    private Set<Image> images;
 
 }

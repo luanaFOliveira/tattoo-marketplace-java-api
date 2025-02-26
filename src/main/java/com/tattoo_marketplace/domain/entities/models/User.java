@@ -1,4 +1,4 @@
-package com.tattoo_marketplace.entities.models;
+package com.tattoo_marketplace.domain.entities.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -57,10 +57,10 @@ public class User implements UserDetails {
     
     @Column(name = "profile_picture_path")
     private String profilePicturePath;
-    // @Override
-    // public Collection<? extends GrantedAuthority> getAuthorities() {
-    //     return List.of(new SimpleGrantedAuthority(this.role.getName().name()));
-    // }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
 
     @Override
     public String getUsername() {

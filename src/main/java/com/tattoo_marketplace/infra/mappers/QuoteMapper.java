@@ -7,6 +7,7 @@ import com.tattoo_marketplace.domain.entities.models.TattooArtist;
 import com.tattoo_marketplace.domain.entities.models.User;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
+import org.mapstruct.MappingConstants;
 
 import java.util.List;
 

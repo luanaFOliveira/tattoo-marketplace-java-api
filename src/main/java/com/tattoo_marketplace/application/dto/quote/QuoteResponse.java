@@ -4,7 +4,7 @@ import com.tattoo_marketplace.application.dto.status.StatusResponse;
 import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistResponse;
 import com.tattoo_marketplace.application.dto.user.UserResponse;
 
-public record QuoteResponse {
+public record QuoteResponse(
 
     Long id,
 
@@ -24,4 +24,6 @@ public record QuoteResponse {
 
     StatusResponse status
 
+){
+    
 }

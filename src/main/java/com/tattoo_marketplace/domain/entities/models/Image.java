@@ -1,3 +1,5 @@
+package com.tattoo_marketplace.domain.entities.models;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

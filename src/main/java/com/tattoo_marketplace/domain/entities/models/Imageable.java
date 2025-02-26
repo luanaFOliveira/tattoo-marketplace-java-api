@@ -1,12 +1,6 @@
-import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+package com.tattoo_marketplace.domain.entities.models;
 
-@Getter
-@Setter
-@MappedSuperclass
-public abstract class Imageable {
-    @Id
-    private Long id;
+public interface Imageable {
+    Long getId();
+    void setId(Long id);
 }

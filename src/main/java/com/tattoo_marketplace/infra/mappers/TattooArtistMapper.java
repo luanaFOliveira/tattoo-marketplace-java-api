@@ -1,14 +1,15 @@
 package com.tattoo_marketplace.infra.mappers;
 
-import com.tattoo_marketplace.application.dto.tattooartist.RegisterTattooArtistRequest;
-import com.tattoo_marketplace.application.dto.tattooartist.RegisterTattooArtistResponse;
-import com.tattoo_marketplace.application.dto.tattooartist.UpdateTattooArtistRequest;
-import com.tattoo_marketplace.application.dto.tattooartist.TattooArtistResponse;
+import com.tattoo_marketplace.application.dto.tattoo_artist.RegisterTattooArtistRequest;
+import com.tattoo_marketplace.application.dto.tattoo_artist.RegisterTattooArtistResponse;
+import com.tattoo_marketplace.application.dto.tattoo_artist.UpdateTattooArtistRequest;
+import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistResponse;
 import com.tattoo_marketplace.domain.entities.models.TattooArtist;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.MappingConstants;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
