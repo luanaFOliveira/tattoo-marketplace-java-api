@@ -1,5 +1,7 @@
 package com.tattoo_marketplace.application.dto.quote;
 
+import java.math.BigDecimal;
+
 import lombok.Data;
 
 @Data
@@ -9,6 +11,6 @@ public class RegisterQuoteResponse {
     private String description;
     private String placement;
     private String color;
-    private Number size;
-    private Number price;
+    private BigDecimal size;
+    private BigDecimal price;
 }

@@ -12,11 +12,9 @@ import org.mapstruct.MappingConstants;
 
 import java.util.List;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+@Mapper(componentModel = "spring", 
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface CategoryMapper {
-
-    CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
 
     Category toEntity(CategoryRequest request);
 

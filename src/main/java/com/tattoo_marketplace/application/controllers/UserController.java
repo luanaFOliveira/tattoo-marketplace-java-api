@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
     @GetMapping("/me")
     @Operation(summary = "Get authenticated user", description = "Get details of the authenticated user.")
@@ -49,7 +50,7 @@ public class UserController {
     public ResponseEntity<UserResponse> userById(@PathVariable Long userId) {
         User user = userService.getUserById(userId);
 
-        return ResponseEntity.status(HttpStatus.OK).body(UserMapper.INSTANCE.toResponse(user));
+        return ResponseEntity.status(HttpStatus.OK).body(userMapper.toResponse(user));
     }
 
     //@PreAuthorize("hasAuthority('ADMIN')")

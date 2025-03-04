@@ -11,6 +11,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import java.util.Set;
 import lombok.EqualsAndHashCode;
+import java.util.List;
+import jakarta.persistence.FetchType;
 
 @Data
 @NoArgsConstructor
@@ -29,7 +31,11 @@ public class TattooArtist extends User implements Imageable  {
     )
     private Set<Category> categories;
 
-    @OneToMany(mappedBy = "entity")
-    private Set<Image> images;
+    // @OneToMany(mappedBy = "entityId", fetch = FetchType.EAGER)
+    // private List<Image> images;
+    @Override
+    public Long getId() {
+        return super.getId();
+    }
 
 }

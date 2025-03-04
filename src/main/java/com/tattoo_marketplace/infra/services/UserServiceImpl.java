@@ -25,6 +25,8 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
+
 
     @Override
     public Long getAuthenticatedUserId() {
@@ -37,7 +39,7 @@ public class UserServiceImpl implements UserService {
     public UserResponse getAuthenticatedUserResponse() {
         Authentication authentication = getAuthentication();
 
-        return UserMapper.INSTANCE.toResponse((User) authentication.getPrincipal());
+        return userMapper.toResponse((User) authentication.getPrincipal());
     }
 
     @Override
@@ -57,7 +59,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserResponse> findAll() {
-        return UserMapper.INSTANCE.toResponses(userRepository.findAll());
+        return userMapper.toResponses(userRepository.findAll());
     }
 
 
@@ -70,11 +72,11 @@ public class UserServiceImpl implements UserService {
     public RegisterUserResponse register(RegisterUserRequest request) {
         assertPasswordsMatch(request);
 
-        User user = UserMapper.INSTANCE.fromRegisterRequest(request);
+        User user = userMapper.fromRegisterRequest(request);
 
         assignPassword(user, request.getPassword());
 
-        return UserMapper.INSTANCE.toRegisterResponse(userRepository.save(user));
+        return userMapper.toRegisterResponse(userRepository.save(user));
     }
 
     private void assertPasswordsMatch(PasswordValidation request) {
@@ -95,7 +97,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("User not found"));
 
-        UserMapper.INSTANCE.updateUserPartial(user,request);
+        userMapper.updateUserPartial(user,request);
 
         if (request.getPassword() != null && request.getPasswordConfirm() != null) {
             assertPasswordsMatch(request);
@@ -103,7 +105,7 @@ public class UserServiceImpl implements UserService {
         }
 
 
-        return UserMapper.INSTANCE.toResponse(userRepository.save(user));
+        return userMapper.toResponse(userRepository.save(user));
     }
 
     public void deleteUser(Long userId) {

@@ -11,15 +11,13 @@ import org.mapstruct.MappingConstants;
 
 import java.util.List;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+@Mapper(componentModel = "spring", 
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface QuoteMapper {
 
-    QuoteMapper INSTANCE = Mappers.getMapper(QuoteMapper.class);
-
     @Mapping(target = "status.id", source = "statusId")
     @Mapping(target = "user.id", source = "userId")
-    @Mapping(target = "tattoo_artist.id", source = "tattooArtistId")
+    @Mapping(target = "tattooArtist.id", source = "tattooArtistId")
     Quote fromRegisterRequest(RegisterQuoteRequest request);
 
     void updateQuotePartial(@MappingTarget Quote quote, UpdateQuoteRequest request);

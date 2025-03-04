@@ -1,11 +1,14 @@
 package com.tattoo_marketplace.application.dto.quote;
 
+import java.math.BigDecimal;
+
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+
 import com.tattoo_marketplace.infra.utils.ValidationMessage;
 
 @Data
@@ -23,11 +26,11 @@ public class RegisterQuoteRequest {
 
     @NotNull(message = "size" + ValidationMessage.MUST_BE_SPECIFIED)
     @Positive(message = "size must be a positive number")
-    private Number size;
+    private BigDecimal size;
 
     @NotNull(message = "price" + ValidationMessage.MUST_BE_SPECIFIED)
     @Positive(message = "price must be a positive number")
-    private Number price;
+    private BigDecimal price;
 
     @NotNull(message = "userId" + ValidationMessage.MUST_BE_SPECIFIED)
     private Long userId;

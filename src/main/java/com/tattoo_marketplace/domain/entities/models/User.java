@@ -32,7 +32,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -60,6 +60,10 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
+    }
+
+    public Long getId() {
+        return id;
     }
 
     @Override

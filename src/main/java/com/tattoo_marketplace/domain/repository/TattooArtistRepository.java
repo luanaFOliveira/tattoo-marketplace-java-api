@@ -16,8 +16,8 @@ public interface TattooArtistRepository extends JpaRepository<TattooArtist, Long
 
     Optional<TattooArtist> findByRate(Long rate);
 
-    Optional<TattooArtist> findByLocation(Long location);
+    Optional<TattooArtist> findByLocation(String location);
 
-    List<TattooArtist> findByCategory(Category category);
+    List<TattooArtist> findByCategoriesContaining(Category category);
 
 }

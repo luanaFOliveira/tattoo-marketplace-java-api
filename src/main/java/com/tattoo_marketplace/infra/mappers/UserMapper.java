@@ -8,16 +8,12 @@ import com.tattoo_marketplace.domain.entities.models.User;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
-import org.mapstruct.MappingConstants;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+@Mapper(componentModel = "spring", 
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface UserMapper {
-
-    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     @Mapping(target = "password", ignore = true)
     User fromRegisterRequest(RegisterUserRequest request);
@@ -29,7 +25,4 @@ public interface UserMapper {
     UserResponse toResponse(User user);
 
     List<UserResponse> toResponses(List<User> user);
-
-
-
 }

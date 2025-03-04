@@ -1,5 +1,7 @@
 package com.tattoo_marketplace.domain.entities.models;
 
+import java.math.BigDecimal;
+
 import com.tattoo_marketplace.domain.entities.models.User;
 import com.tattoo_marketplace.domain.entities.models.TattooArtist;
 import com.tattoo_marketplace.domain.entities.models.Status;
@@ -19,7 +21,14 @@ import jakarta.persistence.OneToMany;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Set;
+
+import jakarta.persistence.*;
+
+import org.hibernate.annotations.*;
+
+import jakarta.persistence.FetchType;
 
 @Data
 @NoArgsConstructor
@@ -39,11 +48,11 @@ public class Quote implements Imageable {
     @Column(nullable = false)
     private String color;
 
-    @Column(nullable = false)
-    private Number size;
+    @Column(precision = 10, scale = 2, nullable=false)
+    private BigDecimal size;
 
-    @Column(nullable = false)
-    private Number price;
+    @Column(precision = 10, scale = 2, nullable=false)
+    private BigDecimal price;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
@@ -57,13 +66,21 @@ public class Quote implements Imageable {
 
     @ManyToOne
     @JoinColumn(name = "tattoo_artist_id", nullable = false)
-    private TattooArtist tattoo_artist;
+    private TattooArtist tattooArtist;
 
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
     private Status status;
 
-    @OneToMany(mappedBy = "entity")
-    private Set<Image> images;
+    // @OneToMany(mappedBy = "entity", cascade = CascadeType.ALL, orphanRemoval = true)
+    // private List<Image> images;
+
+    // @OneToMany(mappedBy = "entityId", fetch = FetchType.EAGER)
+    // private List<Image> images;
+
+    @Override
+    public Long getId() {
+        return id;
+    }
 
 }
