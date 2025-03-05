@@ -36,7 +36,6 @@ public class SecurityConfiguration {
     @Value("${app.cors.allowed-headers}")
     private String[] allowedHeaders;
 
-    // Atualize as rotas que precisam de acesso sem autenticação
     @Value("${app.security.unauthenticated-endpoints}")
     private String[] unauthenticatedEndpoints;
 
@@ -45,14 +44,11 @@ public class SecurityConfiguration {
         return http.csrf(AbstractHttpConfigurer::disable)
             .cors(withDefaults())
             .authorizeHttpRequests(
-                    authorize -> authorize
-                            .requestMatchers("/user/register", "/auth/login","/auth/system-status", "/swagger-ui/**", "/v3/api-docs/**").permitAll()  // Permite o acesso às rotas sem autenticação
-                            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()  // Permite o método OPTIONS para CORS
-                            .anyRequest().authenticated()  // Exige autenticação para todas as outras rotas
+                authorize -> authorize
+                        .requestMatchers(unauthenticatedEndpoints).permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .anyRequest().authenticated()
             )
-            // .authorizeHttpRequests(authorize -> authorize
-            //     .anyRequest().permitAll()
-            // )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authenticationProvider)
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
