@@ -2,7 +2,8 @@ package com.tattoo_marketplace.application.dto.tattoo_artist;
 
 import java.time.LocalDateTime;
 import java.util.Set;
-import com.tattoo_marketplace.domain.entities.models.Category;
+
+import com.tattoo_marketplace.application.dto.category.CategoryResponse;
 
 public record TattooArtistResponse(
         Long id,
@@ -14,7 +15,7 @@ public record TattooArtistResponse(
         LocalDateTime updatedAt,
         String profilePicturePath,
         Integer rate,
-        Set<Category> categories
+        Set<CategoryResponse> categories
 ){
 
 }

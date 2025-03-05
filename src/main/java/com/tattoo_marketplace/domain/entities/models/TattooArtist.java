@@ -29,7 +29,7 @@ public class TattooArtist extends User implements Imageable  {
         joinColumns = @JoinColumn(name = "artist_id"),
         inverseJoinColumns = @JoinColumn(name = "category_id") 
     )
-    private Set<Category> categories;
+    private List<Category> categories;
 
     // @OneToMany(mappedBy = "entityId", fetch = FetchType.EAGER)
     // private List<Image> images;
