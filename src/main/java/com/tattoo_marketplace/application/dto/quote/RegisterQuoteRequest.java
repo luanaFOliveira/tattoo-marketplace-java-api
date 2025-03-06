@@ -37,7 +37,7 @@ public class RegisterQuoteRequest {
 
     @NotNull(message = "tattooArtistId" + ValidationMessage.MUST_BE_SPECIFIED)
     private Long tattooArtistId;
-
+    //TODO: mudar para nao precisar vir status id, todo quote criado comeca como pendente
     @NotNull(message = "statusId" + ValidationMessage.MUST_BE_SPECIFIED)
     private Long statusId;
 }
