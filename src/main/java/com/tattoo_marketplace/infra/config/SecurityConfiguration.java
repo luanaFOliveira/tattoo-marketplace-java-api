@@ -47,6 +47,7 @@ public class SecurityConfiguration {
                 authorize -> authorize
                         .requestMatchers(unauthenticatedEndpoints).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/tattoo-artist", "/tattoo-artist/{tattooArtistId}").permitAll()
                         .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
