@@ -45,17 +45,17 @@ CREATE TABLE IF NOT EXISTS public.quotes (
     status_id BIGINT NOT NULL REFERENCES public.status(id) ON DELETE RESTRICT
 );
 
-CREATE TABLE IF NOT EXISTS public.images (
+CREATE TABLE IF NOT EXISTS public.tattoo_artist_images (
     id BIGSERIAL PRIMARY KEY,
-    key VARCHAR(255) NOT NULL,
     url VARCHAR(255),
-    entity_id BIGINT NOT NULL, 
-    entity_type VARCHAR(50) NOT NULL CHECK (entity_type IN ('Quote', 'TattooArtist')),
-
-    CONSTRAINT fk_entity_quote FOREIGN KEY (entity_id) REFERENCES public.quotes(id) ON DELETE CASCADE,
-    CONSTRAINT fk_entity_tattoo_artist FOREIGN KEY (entity_id) REFERENCES public.tattoo_artists(id) ON DELETE CASCADE
+    tattoo_artist_id BIGINT NOT NULL REFERENCES public.tattoo_artists(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS public.quote_images (
+    id BIGSERIAL PRIMARY KEY,
+    url VARCHAR(255),
+    quote_id BIGINT NOT NULL REFERENCES public.quotes(id) ON DELETE CASCADE
+);
 
 
 

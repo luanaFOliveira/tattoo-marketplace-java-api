@@ -2,6 +2,7 @@ package com.tattoo_marketplace.infra.mappers;
 
 import com.tattoo_marketplace.application.dto.tattoo_artist.RegisterTattooArtistRequest;
 import com.tattoo_marketplace.application.dto.tattoo_artist.RegisterTattooArtistResponse;
+import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistExtendedResponse;
 import com.tattoo_marketplace.application.dto.tattoo_artist.UpdateTattooArtistRequest;
 import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistResponse;
 import com.tattoo_marketplace.domain.entities.models.Category;
@@ -31,16 +32,8 @@ public interface TattooArtistMapper {
     @Mapping(target = "categories", source = "categories") 
     TattooArtistResponse toResponse(TattooArtist artist);
 
+    TattooArtistExtendedResponse toExtendedResponse(TattooArtist artist, List<String> images);
+
     List<TattooArtistResponse> toResponses(List<TattooArtist> artists);
 
-    // @Named("mapCategories")
-    // default Set<String> mapCategories(Set<Category> categories) {
-    //     return categories.stream()
-    //             .map(Category::getName)
-    //             .collect(Collectors.toSet());
-    // }
-    // @Named("mapCategories")
-    // default Set<String> mapCategories(Set<Category> categories) {
-    //     return categories != null ? categories.stream().map(Category::getName).collect(Collectors.toSet()) : Collections.emptySet();
-    // }
 }

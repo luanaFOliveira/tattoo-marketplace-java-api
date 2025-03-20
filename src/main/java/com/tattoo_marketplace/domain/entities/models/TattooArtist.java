@@ -18,7 +18,7 @@ import jakarta.persistence.FetchType;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Entity(name = "tattoo_artists")
-public class TattooArtist extends User implements Imageable  {
+public class TattooArtist extends User{
 
     @Column(nullable = false)
     private Integer rate;
@@ -31,8 +31,7 @@ public class TattooArtist extends User implements Imageable  {
     )
     private List<Category> categories;
 
-    // @OneToMany(mappedBy = "entityId", fetch = FetchType.EAGER)
-    // private List<Image> images;
+
     @Override
     public Long getId() {
         return super.getId();

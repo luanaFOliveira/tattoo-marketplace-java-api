@@ -6,15 +6,19 @@ import java.util.Set;
 
 import com.tattoo_marketplace.application.dto.category.CategoryResponse;
 
-public record TattooArtistResponse(
+public record TattooArtistExtendedResponse(
         Long id,
         String email,
         String name,
         String location,
         Integer age,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt,
         String profilePicturePath,
         Integer rate,
-        Set<CategoryResponse> categories
+        Set<CategoryResponse> categories,
+        List<String> images
+
 ){
 
 }

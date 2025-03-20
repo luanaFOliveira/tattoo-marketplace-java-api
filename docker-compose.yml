@@ -1,4 +1,3 @@
-
 version: '3.8'
 services:
    tattoo_marketplace_db:
@@ -12,7 +11,7 @@ services:
        - "5432:5432"
      networks:
        - tattoo_network
-  
+
    app:
      build:
        context: .
@@ -28,12 +27,14 @@ services:
        - "8089:8089"
      networks:
        - tattoo_network
+     volumes:
+       - tattoo_images:/app/images  
 
    maven:
      image: maven:3.8.5-openjdk-17
      volumes:
-       - .:/app 
-       - ~/.m2:/root/.m2  
+       - .:/app
+       - ~/.m2:/root/.m2
      working_dir: /app
      networks:
        - tattoo_network
@@ -41,3 +42,6 @@ services:
 networks:
   tattoo_network:
     driver: bridge
+
+volumes:
+  tattoo_images:  

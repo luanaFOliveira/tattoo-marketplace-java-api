@@ -7,11 +7,17 @@ import com.tattoo_marketplace.application.dto.status.StatusResponse;
 import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistResponse;
 import com.tattoo_marketplace.application.dto.user.UserResponse;
 
-public record QuoteResponse(
+public record QuoteExtendedResponse(
 
     Long id,
 
     String description,
+
+    String placement,
+
+    String color,
+
+    BigDecimal size,
 
     BigDecimal price,
 
@@ -19,8 +25,9 @@ public record QuoteResponse(
 
     TattooArtistResponse tattooArtist,
 
-    StatusResponse status
+    StatusResponse status,
 
+    List<String> images
 
 ){
     

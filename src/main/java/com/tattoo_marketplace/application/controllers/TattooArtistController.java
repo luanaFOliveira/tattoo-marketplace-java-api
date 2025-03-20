@@ -7,6 +7,7 @@ import com.tattoo_marketplace.application.dto.tattoo_artist.RegisterTattooArtist
 import com.tattoo_marketplace.application.dto.tattoo_artist.RegisterTattooArtistResponse;
 import com.tattoo_marketplace.application.dto.tattoo_artist.UpdateTattooArtistRequest;
 import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistResponse;
+import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistExtendedResponse;
 import com.tattoo_marketplace.domain.entities.models.TattooArtist;
 import com.tattoo_marketplace.application.services.TattooArtistService;
 import com.tattoo_marketplace.infra.mappers.TattooArtistMapper;
@@ -26,6 +27,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestPart;
 
 @RequiredArgsConstructor
 @Tag(name = "Tattoo Artist Controller")
@@ -46,10 +49,10 @@ public class TattooArtistController {
 
     @GetMapping("/{tattooArtistId}")
     @Operation(summary = "Get tattoo artist by id", description = "Get details of the tattoo artist by id.")
-    public ResponseEntity<TattooArtistResponse> tattooArtistById(@PathVariable Long tattooArtistId) {
-        TattooArtist tattoo_artist = tattooArtistService.getTattooArtistById(tattooArtistId);
+    public ResponseEntity<TattooArtistExtendedResponse> tattooArtistById(@PathVariable Long tattooArtistId) {
+        TattooArtistExtendedResponse tattoo_artist = tattooArtistService.getDetailedTattooArtistById(tattooArtistId);
 
-        return ResponseEntity.status(HttpStatus.OK).body(tattooArtistMapper.toResponse(tattoo_artist));
+        return ResponseEntity.status(HttpStatus.OK).body(tattoo_artist);
     }
 
     @GetMapping
@@ -60,14 +63,16 @@ public class TattooArtistController {
         return ResponseEntity.status(HttpStatus.OK).body(tattoo_artists);
     }
 
-    @PostMapping("/register")
+    @PostMapping(value="/register", consumes = {"multipart/form-data"})
     @Operation(summary = "Create a new tattoo artist", description = "Creates a new tattoo artist")
-    public ResponseEntity<RegisterTattooArtistResponse> register(@Valid @RequestBody RegisterTattooArtistRequest request) {
-
-        RegisterTattooArtistResponse registeredTattooArtist = tattooArtistService.register(request);
+    public ResponseEntity<RegisterTattooArtistResponse> register(@RequestPart(value = "request") @Valid RegisterTattooArtistRequest request,
+                                                                    @RequestPart(value = "images", required = false) List<MultipartFile> images
+    ) {
+        RegisterTattooArtistResponse registeredTattooArtist = tattooArtistService.register(request, images != null ? images : List.of());
 
         return ResponseEntity.ok(registeredTattooArtist);
     }
+
 
     // deve ser o proprio usuario para editar ele mesmo
     @PutMapping("/{tattooArtistId}")

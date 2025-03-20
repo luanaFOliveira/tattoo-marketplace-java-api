@@ -5,8 +5,6 @@ import java.math.BigDecimal;
 import com.tattoo_marketplace.domain.entities.models.User;
 import com.tattoo_marketplace.domain.entities.models.TattooArtist;
 import com.tattoo_marketplace.domain.entities.models.Status;
-import com.tattoo_marketplace.domain.entities.models.Image;
-import com.tattoo_marketplace.domain.entities.models.Imageable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,7 +31,7 @@ import jakarta.persistence.FetchType;
 @Data
 @NoArgsConstructor
 @Entity(name = "quotes")
-public class Quote implements Imageable {
+public class Quote{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,16 +69,5 @@ public class Quote implements Imageable {
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
     private Status status;
-
-    // @OneToMany(mappedBy = "entity", cascade = CascadeType.ALL, orphanRemoval = true)
-    // private List<Image> images;
-
-    // @OneToMany(mappedBy = "entityId", fetch = FetchType.EAGER)
-    // private List<Image> images;
-
-    @Override
-    public Long getId() {
-        return id;
-    }
 
 }
