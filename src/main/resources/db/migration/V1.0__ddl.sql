@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS public.users (
 
 CREATE TABLE IF NOT EXISTS public.tattoo_artists (
     id BIGINT PRIMARY KEY REFERENCES public.users(id) ON DELETE CASCADE,
-    rate INTEGER NOT NULL
+    rate INTEGER
 );
 
 
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS public.quotes (
     placement VARCHAR(255) NOT NULL,
     color VARCHAR(255) NOT NULL,
     size NUMERIC(10,2) NOT NULL,
-    price NUMERIC(10,2) NOT NULL,
+    price NUMERIC(10,2),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     user_id BIGINT NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
