@@ -15,4 +15,6 @@ public interface TattooArtistImageService {
     void deleteImage(Long imageId);
 
     void deleteAllByTattooArtistId(Long tattooArtistId);
+
+    List<byte[]> findAllImageBytesByTattooArtistId(Long tattooArtistId);
 }

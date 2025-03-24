@@ -17,7 +17,7 @@ public record TattooArtistExtendedResponse(
         String profilePicturePath,
         Integer rate,
         Set<CategoryResponse> categories,
-        List<String> images
+        List<byte[]> images
 
 ){
 

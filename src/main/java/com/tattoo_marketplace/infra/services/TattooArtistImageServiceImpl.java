@@ -38,7 +38,9 @@ public class TattooArtistImageServiceImpl implements TattooArtistImageService {
         String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
         Path path = Paths.get(uploadDir + fileName);
 
-        image.transferTo(path.toFile());
+        //image.transferTo(path.toFile());
+        image.transferTo(new File(path.toFile().toString()));
+        
         return "/images/" + fileName;
     }
 
@@ -63,10 +65,7 @@ public class TattooArtistImageServiceImpl implements TattooArtistImageService {
         });
     }
 
-    @Override
-    public List<TattooArtistImage> findAllByTattooArtistId(Long tattooArtistId){
-        return tattooArtistImageRepository.findAllByTattooArtistId(tattooArtistId);
-    }
+    
 
     @Override
     public void deleteImage(Long imageId) {
@@ -101,4 +100,41 @@ public class TattooArtistImageServiceImpl implements TattooArtistImageService {
         }
     }
 
+    @Override
+    public List<TattooArtistImage> findAllByTattooArtistId(Long tattooArtistId){
+        return tattooArtistImageRepository.findAllByTattooArtistId(tattooArtistId);
+    }
+
+    public TattooArtistImage getImageById(Long id) {
+        return tattooArtistImageRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Imagem não encontrada com ID: " + id));
+    }
+
+    @Override
+    public List<byte[]> findAllImageBytesByTattooArtistId(Long tattooArtistId) {
+        List<TattooArtistImage> images = tattooArtistImageRepository.findAllByTattooArtistId(tattooArtistId);
+
+        return images.stream()
+                    .map(image -> getImageBytes(image.getId())) 
+                    .toList();
+    }
+
+
+
+    private byte[] getImageBytes(Long id) {
+        try {
+            TattooArtistImage image = getImageById(id);
+            File file = new File(uploadDir + new File(image.getUrl()).getName());
+
+            if (!file.exists()) {
+                throw new RuntimeException("Imagem não encontrada no sistema de arquivos.");
+            }
+
+            return Files.readAllBytes(file.toPath());
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao ler a imagem do sistema de arquivos.", e);
+        }
+    }
+
+    
 }

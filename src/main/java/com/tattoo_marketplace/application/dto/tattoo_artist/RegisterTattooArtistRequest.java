@@ -10,8 +10,5 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class RegisterTattooArtistRequest extends RegisterUserRequest {
 
-    @NotNull(message = "rate must be specified")
-    private Integer rate;
-
     private Set<Long> categoryIds; 
 }

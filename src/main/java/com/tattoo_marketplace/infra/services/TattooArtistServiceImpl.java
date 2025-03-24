@@ -93,15 +93,15 @@ public class TattooArtistServiceImpl implements TattooArtistService {
 
     @Override
     public TattooArtistExtendedResponse getDetailedTattooArtistById(Long tattooArtistId) {
-        TattooArtist tattooArtist = tattooArtistRepository.findById(tattooArtistId)
-            .orElseThrow(() -> new EntityNotFoundException(String.format("Can't find tattoo artist for id=%s", tattooArtistId)));
+        TattooArtist tattooArtist = getTattooArtistById(tattooArtistId);
         return mapToExtendedResponse(tattooArtist);
     }
 
     private TattooArtistExtendedResponse mapToExtendedResponse(TattooArtist tattooArtist) {
-        final var images = tattooArtistImageService.findAllByTattooArtistId(tattooArtist.getId())
-                .stream()
-                .map(TattooArtistImage::getUrl).toList();
+        final var images = tattooArtistImageService.findAllImageBytesByTattooArtistId(tattooArtist.getId());
+        // final var images = tattooArtistImageService.findAllByTattooArtistId(tattooArtist.getId())
+        //         .stream()
+        //         .map(TattooArtistImage::getUrl).toList();
         return tattooArtistMapper.toExtendedResponse(tattooArtist, images);
     }
 
