@@ -102,4 +102,34 @@ public class QuoteImageServiceImpl implements QuoteImageService {
         }
     }
 
+    private QuoteImage getImageById(Long id) {
+        return quoteImageRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Imagem não encontrada com ID: " + id));
+    }
+
+    @Override
+    public List<byte[]> findAllImageBytesByQuoteId(Long quoteId) {
+        List<QuoteImage> images = quoteImageRepository.findAllByQuoteId(quoteId);
+
+        return images.stream()
+                    .map(image -> getImageBytes(image.getId())) 
+                    .toList();
+    }
+
+
+    private byte[] getImageBytes(Long id) {
+        try {
+            QuoteImage image = getImageById(id);
+            File file = new File(uploadDir + new File(image.getUrl()).getName());
+
+            if (!file.exists()) {
+                throw new RuntimeException("Imagem não encontrada no sistema de arquivos.");
+            }
+
+            return Files.readAllBytes(file.toPath());
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao ler a imagem do sistema de arquivos.", e);
+        }
+    }
+
 }

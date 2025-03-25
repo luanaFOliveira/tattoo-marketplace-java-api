@@ -32,7 +32,7 @@ public interface TattooArtistMapper {
     @Mapping(target = "categories", source = "categories") 
     TattooArtistResponse toResponse(TattooArtist artist);
 
-    TattooArtistExtendedResponse toExtendedResponse(TattooArtist artist, List<byte[]> images);
+    TattooArtistExtendedResponse toExtendedResponse(TattooArtist artist, List<String> images);
 
     List<TattooArtistResponse> toResponses(List<TattooArtist> artists);
 

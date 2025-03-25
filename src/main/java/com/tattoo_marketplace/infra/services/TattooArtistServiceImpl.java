@@ -98,10 +98,10 @@ public class TattooArtistServiceImpl implements TattooArtistService {
     }
 
     private TattooArtistExtendedResponse mapToExtendedResponse(TattooArtist tattooArtist) {
-        final var images = tattooArtistImageService.findAllImageBytesByTattooArtistId(tattooArtist.getId());
-        // final var images = tattooArtistImageService.findAllByTattooArtistId(tattooArtist.getId())
-        //         .stream()
-        //         .map(TattooArtistImage::getUrl).toList();
+        //final var images = tattooArtistImageService.findAllImageBytesByTattooArtistId(tattooArtist.getId());
+        final var images = tattooArtistImageService.findAllByTattooArtistId(tattooArtist.getId())
+                .stream()
+                .map(TattooArtistImage::getUrl).toList();
         return tattooArtistMapper.toExtendedResponse(tattooArtist, images);
     }
 

@@ -15,4 +15,6 @@ public interface QuoteImageService {
     void deleteImage(Long imageId);
 
     void deleteAllByQuoteId(Long quoteId);
+
+    List<byte[]> findAllImageBytesByQuoteId(Long quoteId);
 }

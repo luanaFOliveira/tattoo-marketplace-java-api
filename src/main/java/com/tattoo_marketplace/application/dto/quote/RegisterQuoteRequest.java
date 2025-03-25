@@ -28,16 +28,9 @@ public class RegisterQuoteRequest {
     @Positive(message = "size must be a positive number")
     private BigDecimal size;
 
-    @NotNull(message = "price" + ValidationMessage.MUST_BE_SPECIFIED)
-    @Positive(message = "price must be a positive number")
-    private BigDecimal price;
-
     @NotNull(message = "userId" + ValidationMessage.MUST_BE_SPECIFIED)
     private Long userId;
 
     @NotNull(message = "tattooArtistId" + ValidationMessage.MUST_BE_SPECIFIED)
     private Long tattooArtistId;
-    //TODO: mudar para nao precisar vir status id, todo quote criado comeca como pendente
-    @NotNull(message = "statusId" + ValidationMessage.MUST_BE_SPECIFIED)
-    private Long statusId;
 }

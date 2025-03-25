@@ -15,7 +15,6 @@ import java.util.List;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface QuoteMapper {
 
-    @Mapping(target = "status.id", source = "statusId")
     @Mapping(target = "user.id", source = "userId")
     @Mapping(target = "tattooArtist.id", source = "tattooArtistId")
     Quote fromRegisterRequest(RegisterQuoteRequest request);
@@ -26,7 +25,7 @@ public interface QuoteMapper {
 
     QuoteResponse toResponse(Quote quote);
 
-    QuoteExtendedResponse toExtendedResponse(Quote quote, List<String> images);
+    QuoteExtendedResponse toExtendedResponse(Quote quote, List<byte[]> images);
 
     List<QuoteResponse> toResponses(List<Quote> quotes);
 
