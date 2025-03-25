@@ -13,6 +13,10 @@ public interface QuoteService {
 
     List<QuoteResponse> findAll();
 
+    List<QuoteResponse> findAllByUserId(Long userId);
+
+    List<QuoteResponse> findAllByTattooArtistId(Long tattooArtistId);
+
     RegisterQuoteResponse register(RegisterQuoteRequest request, List<MultipartFile> images);
 
     QuoteExtendedResponse getQuoteById(Long quoteId);

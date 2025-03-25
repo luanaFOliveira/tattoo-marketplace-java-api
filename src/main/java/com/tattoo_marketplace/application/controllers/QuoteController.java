@@ -46,10 +46,18 @@ public class QuoteController {
         return ResponseEntity.status(HttpStatus.OK).body(quote);
     }
 
-    @GetMapping
-    @Operation(summary = "Get all quotes", description = "Get details of all registered quotes")
-    public ResponseEntity<List<QuoteResponse>> allQuotes() {
-        List<QuoteResponse> quote = quoteService.findAll();
+    @GetMapping("/user/{userId}")
+    @Operation(summary = "Get all quotes by user id", description = "Get details of all registered quotes by user id")
+    public ResponseEntity<List<QuoteResponse>> allQuotesByUserId(@PathVariable Long userId) {
+        List<QuoteResponse> quote = quoteService.findAllByUserId(userId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(quote);
+    }
+
+    @GetMapping("/tattoo-artist/{tattooArtistId}")
+    @Operation(summary = "Get all quotes by tattoo artist id", description = "Get details of all registered quotes by tattoo artist id")
+    public ResponseEntity<List<QuoteResponse>> allQuotesByTattooArtistId(@PathVariable Long tattooArtistId) {
+        List<QuoteResponse> quote = quoteService.findAllByTattooArtistId(tattooArtistId);
 
         return ResponseEntity.status(HttpStatus.OK).body(quote);
     }

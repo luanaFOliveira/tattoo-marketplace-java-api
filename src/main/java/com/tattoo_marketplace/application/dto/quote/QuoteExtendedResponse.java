@@ -27,7 +27,7 @@ public record QuoteExtendedResponse(
 
     StatusResponse status,
 
-    List<byte[]> images
+    List<String> images
 
 ){
     

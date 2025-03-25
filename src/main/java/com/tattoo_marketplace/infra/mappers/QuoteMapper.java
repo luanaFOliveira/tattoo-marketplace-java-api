@@ -25,7 +25,7 @@ public interface QuoteMapper {
 
     QuoteResponse toResponse(Quote quote);
 
-    QuoteExtendedResponse toExtendedResponse(Quote quote, List<byte[]> images);
+    QuoteExtendedResponse toExtendedResponse(Quote quote, List<String> images);
 
     List<QuoteResponse> toResponses(List<Quote> quotes);
 

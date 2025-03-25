@@ -77,10 +77,10 @@ public class QuoteServiceImpl implements QuoteService {
     }
 
     private QuoteExtendedResponse mapToExtendedResponse(Quote quote) {
-        final var images = quoteImageService.findAllImageBytesByQuoteId(quote.getId());
-        // final var images = quoteImageService.findAllByQuoteId(quote.getId())
-        //         .stream()
-        //         .map(QuoteImage::getUrl).toList();
+        //final var images = quoteImageService.findAllImageBytesByQuoteId(quote.getId());
+        final var images = quoteImageService.findAllByQuoteId(quote.getId())
+                .stream()
+                .map(QuoteImage::getUrl).toList();
         return quoteMapper.toExtendedResponse(quote, images);
     }
 
@@ -112,6 +112,16 @@ public class QuoteServiceImpl implements QuoteService {
     @Override
     public List<QuoteResponse> findAll() {
         return quoteMapper.toResponses(quoteRepository.findAll());
+    }
+
+    @Override
+    public List<QuoteResponse> findAllByUserId(Long userId) {
+        return quoteMapper.toResponses(quoteRepository.findByUserId(userId));
+    }
+
+    @Override
+    public List<QuoteResponse> findAllByTattooArtistId(Long tattooArtistId) {
+        return quoteMapper.toResponses(quoteRepository.findByTattooArtistId(tattooArtistId));
     }
 
     public Quote getQuote(Long quoteId) {

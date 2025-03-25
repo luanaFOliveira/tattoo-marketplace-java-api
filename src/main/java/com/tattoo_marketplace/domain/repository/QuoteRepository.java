@@ -15,9 +15,9 @@ public interface QuoteRepository extends JpaRepository<Quote, Long> {
 
     Optional<Quote> findById(Long id);
 
-    List<Quote> findByUser(User user);
+    List<Quote> findByUserId(Long userId);
 
-    List<Quote> findByTattooArtist(TattooArtist tattooArtist);
+    List<Quote> findByTattooArtistId(Long tattooArtistId);
 
     List<Status> findByStatus(Status status);
 
