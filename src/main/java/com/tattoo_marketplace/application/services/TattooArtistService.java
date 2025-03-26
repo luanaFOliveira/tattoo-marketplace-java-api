@@ -15,7 +15,9 @@ public interface TattooArtistService {
 
     List<TattooArtistResponse> findAll();
 
-    RegisterTattooArtistResponse register(RegisterTattooArtistRequest request, List<MultipartFile> images);
+    RegisterTattooArtistResponse register(RegisterTattooArtistRequest request, MultipartFile profilePicture);
+    
+    TattooArtistResponse addPortifolioImages(Long tattooArtistId, List<MultipartFile> images);
 
     TattooArtist getTattooArtistById(Long tattooArtistId);
 

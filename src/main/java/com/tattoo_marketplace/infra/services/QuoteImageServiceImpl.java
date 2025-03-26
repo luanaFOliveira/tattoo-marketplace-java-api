@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 
 import com.tattoo_marketplace.application.services.QuoteService;
 import com.tattoo_marketplace.application.services.QuoteImageService;
+import com.tattoo_marketplace.application.services.ImageService;
 import com.tattoo_marketplace.domain.entities.models.Quote;
 import com.tattoo_marketplace.domain.entities.models.QuoteImage;
 import com.tattoo_marketplace.domain.repository.QuoteImageRepository;
@@ -29,19 +30,8 @@ public class QuoteImageServiceImpl implements QuoteImageService {
     private final QuoteImageRepository quoteImageRepository;
     private final QuoteRepository quoteRepository;
     private final String uploadDir = "/app/images/";
+    private final ImageService imageService;
 
-    private String saveImage(MultipartFile image) throws IOException {
-        File directory = new File(uploadDir);
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
-
-        String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
-        Path path = Paths.get(uploadDir + fileName);
-
-        image.transferTo(path.toFile());
-        return "/images/" + fileName;
-    }
 
     private void saveImageToDatabase(String imageUrl, Quote quote) {
 
@@ -56,10 +46,10 @@ public class QuoteImageServiceImpl implements QuoteImageService {
     public void uploadImages(List<MultipartFile> images, Quote quote) {
         images.forEach(image -> {
             try {
-                String imageUrl = saveImage(image);
+                String imageUrl = imageService.saveImage(image);
                 saveImageToDatabase(imageUrl, quote);
             } catch (IOException e) {
-                throw new RuntimeException("Erro ao salvar imagem: " + image.getOriginalFilename(), e);
+                throw new RuntimeException("Failed to upload image", e);
             }
         });
     }

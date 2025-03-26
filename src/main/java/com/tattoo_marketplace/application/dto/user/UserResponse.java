@@ -16,9 +16,9 @@ public record UserResponse(
 
         LocalDateTime createdAt,
 
-        LocalDateTime updatedAt
+        LocalDateTime updatedAt,
 
-        //String profilePicturePath
+        String profilePicture
 ) {
 
 }

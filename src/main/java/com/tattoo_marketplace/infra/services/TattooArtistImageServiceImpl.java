@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import com.tattoo_marketplace.application.services.TattooArtistImageService;
+import com.tattoo_marketplace.application.services.ImageService;
 import com.tattoo_marketplace.domain.entities.models.TattooArtistImage;
 import com.tattoo_marketplace.domain.entities.models.TattooArtist;
 import com.tattoo_marketplace.domain.repository.TattooArtistImageRepository;
@@ -28,21 +29,8 @@ public class TattooArtistImageServiceImpl implements TattooArtistImageService {
     private final TattooArtistImageRepository tattooArtistImageRepository;
     private final TattooArtistRepository tattooArtistRepository;
     private final String uploadDir = "/app/images/";
+    private final ImageService imageService;
 
-    private String saveImage(MultipartFile image) throws IOException {
-        File directory = new File(uploadDir);
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
-
-        String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
-        Path path = Paths.get(uploadDir + fileName);
-
-        //image.transferTo(path.toFile());
-        image.transferTo(new File(path.toFile().toString()));
-        
-        return "/images/" + fileName;
-    }
 
     private void saveImageToDatabase(String imageUrl, TattooArtist tattooArtist) {
 
@@ -57,10 +45,10 @@ public class TattooArtistImageServiceImpl implements TattooArtistImageService {
     public void uploadImages(List<MultipartFile> images, TattooArtist tattooArtist) {
         images.forEach(image -> {
             try {
-                String imageUrl = saveImage(image);
+                String imageUrl = imageService.saveImage(image);
                 saveImageToDatabase(imageUrl, tattooArtist);
             } catch (IOException e) {
-                throw new RuntimeException("Erro ao salvar imagem: " + image.getOriginalFilename(), e);
+                throw new RuntimeException("Failed to upload image", e);
             }
         });
     }

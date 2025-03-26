@@ -55,8 +55,9 @@ public class User implements UserDetails {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
     
-    @Column(name = "profile_picture_path")
-    private String profilePicturePath;
+    @Column(name = "profile_picture")
+    private String profilePicture;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();

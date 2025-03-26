@@ -63,16 +63,24 @@ public class TattooArtistController {
         return ResponseEntity.status(HttpStatus.OK).body(tattoo_artists);
     }
 
+    // ver de fazer uma rota pra adicionar as imagens de portifolio - a imagem de perfil vem do registro de usuario basico
     @PostMapping(value="/register", consumes = {"multipart/form-data"})
     @Operation(summary = "Create a new tattoo artist", description = "Creates a new tattoo artist")
     public ResponseEntity<RegisterTattooArtistResponse> register(@RequestPart(value = "request") @Valid RegisterTattooArtistRequest request,
-                                                                    @RequestPart(value = "images", required = false) List<MultipartFile> images
+                                                                    @RequestPart(value = "profile_img", required = false) MultipartFile profilePicture
     ) {
-        RegisterTattooArtistResponse registeredTattooArtist = tattooArtistService.register(request, images != null ? images : List.of());
+        RegisterTattooArtistResponse registeredTattooArtist = tattooArtistService.register(request, profilePicture);
 
         return ResponseEntity.ok(registeredTattooArtist);
     }
 
+    @PutMapping(value="/portifolio/{tattooArtistId}", consumes = {"multipart/form-data"})
+    @Operation(summary = "Add image to tattoo artist portifolio", description = "Adds images to tattoo artist portifolio by tattoo artist id")
+    public ResponseEntity<TattooArtistResponse> addPortifolioImages(@PathVariable Long tattooArtistId, @RequestPart(value = "images", required = false) List<MultipartFile> images) {
+
+        TattooArtistResponse updatedTattooArtist = tattooArtistService.addPortifolioImages(tattooArtistId, images);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedTattooArtist);
+    }
 
     // deve ser o proprio usuario para editar ele mesmo
     @PutMapping("/{tattooArtistId}")

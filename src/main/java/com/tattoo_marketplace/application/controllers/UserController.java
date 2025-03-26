@@ -27,9 +27,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-//import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @Tag(name = "User Controller")
@@ -64,14 +64,17 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
-    @PostMapping("/register")
+    @PostMapping(value="/register", consumes = {"multipart/form-data"})
     @Operation(summary = "Create a new user", description = "Creates a new user")
-    public ResponseEntity<RegisterUserResponse> register(@Valid @RequestBody RegisterUserRequest request) {
+    public ResponseEntity<RegisterUserResponse> register(@RequestPart(value = "request") @Valid RegisterUserRequest request,
+                                                            @RequestPart(value = "profile_img", required = false) MultipartFile profilePicture
+    ) {
 
-        RegisterUserResponse registeredUser = userService.register(request);
+        RegisterUserResponse registeredUser = userService.register(request, profilePicture);
 
         return ResponseEntity.ok(registeredUser);
     }
+
 
     // deve ser o proprio usuario para editar ele mesmo
     @PutMapping("/{userId}")

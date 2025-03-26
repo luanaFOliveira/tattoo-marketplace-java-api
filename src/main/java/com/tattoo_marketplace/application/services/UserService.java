@@ -18,7 +18,7 @@ public interface UserService {
 
     List<UserResponse> findAll();
 
-    RegisterUserResponse register(RegisterUserRequest request);
+    RegisterUserResponse register(RegisterUserRequest request, MultipartFile profilePicture);
 
     User getUserById(Long userId);
 

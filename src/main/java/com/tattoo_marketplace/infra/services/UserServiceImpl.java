@@ -9,6 +9,7 @@ import com.tattoo_marketplace.domain.entities.models.User;
 import com.tattoo_marketplace.infra.mappers.UserMapper;
 import com.tattoo_marketplace.domain.repository.UserRepository;
 import com.tattoo_marketplace.application.services.UserService;
+import com.tattoo_marketplace.application.services.ImageService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import jakarta.persistence.EntityNotFoundException;
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @Service
@@ -26,6 +28,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
+    private final ImageService imageService;
 
 
     @Override
@@ -68,14 +71,24 @@ public class UserServiceImpl implements UserService {
         user.setPassword(encodedPassword);
     }
 
+    private void saveProfileImage(User user, MultipartFile profilePicture){
+        try {
+            String imageUrl = imageService.saveImage(profilePicture);
+            user.setProfilePicture(imageUrl);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to save profile image", e);
+        }
+    }
+
     @Override
-    public RegisterUserResponse register(RegisterUserRequest request) {
+    public RegisterUserResponse register(RegisterUserRequest request, MultipartFile profilePicture) {
         assertPasswordsMatch(request);
 
         User user = userMapper.fromRegisterRequest(request);
 
         assignPassword(user, request.getPassword());
-
+        saveProfileImage(user, profilePicture);
+        
         return userMapper.toRegisterResponse(userRepository.save(user));
     }
 

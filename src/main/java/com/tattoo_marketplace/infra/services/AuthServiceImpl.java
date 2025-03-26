@@ -2,6 +2,7 @@ package com.tattoo_marketplace.infra.services;
 
 import com.tattoo_marketplace.application.dto.user.LoginRequest;
 import com.tattoo_marketplace.application.dto.user.LoginResponse;
+import com.tattoo_marketplace.domain.entities.models.TattooArtist;
 import com.tattoo_marketplace.domain.repository.UserRepository;
 import com.tattoo_marketplace.application.services.AuthService;
 import com.tattoo_marketplace.application.services.JwtService;
@@ -35,7 +36,9 @@ public class AuthServiceImpl implements AuthService {
 
         return new LoginResponse(authenticatedUser.getId(),
                 jwtToken,
-                jwtService.getExpirationTime()
+                jwtService.getExpirationTime(),
+                authenticatedUser instanceof TattooArtist,
+                authenticatedUser.getProfilePicture()
         );
     }
 }

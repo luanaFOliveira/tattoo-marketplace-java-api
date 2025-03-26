@@ -14,6 +14,7 @@ import com.tattoo_marketplace.domain.repository.TattooArtistRepository;
 import com.tattoo_marketplace.infra.mappers.TattooArtistMapper;
 import com.tattoo_marketplace.application.services.TattooArtistService;
 import com.tattoo_marketplace.application.services.TattooArtistImageService;
+import com.tattoo_marketplace.application.services.ImageService;
 
 import java.util.List;
 import java.util.Set;
@@ -30,6 +31,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.transaction.annotation.Transactional;
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @Service
@@ -40,6 +42,7 @@ public class TattooArtistServiceImpl implements TattooArtistService {
     private final PasswordEncoder passwordEncoder;
     private final TattooArtistMapper tattooArtistMapper;
     private final TattooArtistImageService tattooArtistImageService;
+    private final ImageService imageService;
 
     private Authentication getAuthentication() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -67,8 +70,18 @@ public class TattooArtistServiceImpl implements TattooArtistService {
         }
     }
 
+    private void saveProfileImage(TattooArtist tattooArtist, MultipartFile profilePicture){
+        try {
+            String imageUrl = imageService.saveImage(profilePicture);
+            tattooArtist.setProfilePicture(imageUrl);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to save profile image", e);
+        }
+    }
+
+
     @Override
-    public RegisterTattooArtistResponse register(RegisterTattooArtistRequest request, List<MultipartFile> images) {
+    public RegisterTattooArtistResponse register(RegisterTattooArtistRequest request, MultipartFile profilePicture) {
         assertPasswordsMatch(request);
 
         TattooArtist tattooArtist = tattooArtistMapper.fromRegisterRequest(request);
@@ -80,7 +93,8 @@ public class TattooArtistServiceImpl implements TattooArtistService {
         assignPassword(tattooArtist, request.getPassword());
 
         TattooArtist savedTattooArtist = tattooArtistRepository.save(tattooArtist);
-        tattooArtistImageService.uploadImages(images, savedTattooArtist); 
+        saveProfileImage(savedTattooArtist, profilePicture);
+        //tattooArtistImageService.uploadImages(images, savedTattooArtist); 
         
         return tattooArtistMapper.toRegisterResponse(savedTattooArtist);
     }
@@ -98,7 +112,6 @@ public class TattooArtistServiceImpl implements TattooArtistService {
     }
 
     private TattooArtistExtendedResponse mapToExtendedResponse(TattooArtist tattooArtist) {
-        //final var images = tattooArtistImageService.findAllImageBytesByTattooArtistId(tattooArtist.getId());
         final var images = tattooArtistImageService.findAllByTattooArtistId(tattooArtist.getId())
                 .stream()
                 .map(TattooArtistImage::getUrl).toList();
@@ -143,4 +156,11 @@ public class TattooArtistServiceImpl implements TattooArtistService {
         return tattooArtistMapper.toResponses(tattooArtistRepository.findAll());
     }
 
+    @Override
+    public TattooArtistResponse addPortifolioImages(Long tattooArtistId, List<MultipartFile> images){
+        TattooArtist tattooArtist = getTattooArtistById(tattooArtistId);
+        tattooArtistImageService.uploadImages(images, tattooArtist);
+
+        return tattooArtistMapper.toResponse(tattooArtist);
+    }
 }
