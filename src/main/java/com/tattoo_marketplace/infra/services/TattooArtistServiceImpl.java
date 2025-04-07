@@ -59,6 +59,12 @@ public class TattooArtistServiceImpl implements TattooArtistService {
         return tattooArtistMapper.toResponse(tattooArtist);
     }
 
+    private Long getAuthenticatedTattooArtistId() {
+        Authentication authentication = getAuthentication();
+
+        return ((TattooArtist) authentication.getPrincipal()).getId();
+    }
+
     private void assignPassword(TattooArtist tattoo_artist, String password) {
         final var encodedPassword = passwordEncoder.encode(password);
         tattoo_artist.setPassword(encodedPassword);
@@ -119,7 +125,11 @@ public class TattooArtistServiceImpl implements TattooArtistService {
     }
 
     @Override
-    public TattooArtistResponse editTattooArtist(Long tattooArtistId, UpdateTattooArtistRequest request) {
+    public TattooArtistResponse editTattooArtist(Long tattooArtistId, UpdateTattooArtistRequest request, MultipartFile profilePicture) {
+        Long authenticatedTattooArtistId = getAuthenticatedTattooArtistId();
+        if (!authenticatedTattooArtistId.equals(tattooArtistId)) {
+            throw new RuntimeException("You can only edit your own profile");
+        }
         TattooArtist tattooArtist = tattooArtistRepository.findById(tattooArtistId)
             .orElseThrow(() -> new RuntimeException("Tattoo artist not found"));
 
@@ -128,6 +138,9 @@ public class TattooArtistServiceImpl implements TattooArtistService {
         if (request.getPassword() != null && request.getPasswordConfirm() != null) {
             assertPasswordsMatch(request);
             assignPassword(tattooArtist, request.getPassword());
+        }
+        if (profilePicture != null) {
+            saveProfileImage(tattooArtist, profilePicture);
         }
 
         if (request.getCategoryIds() != null && !request.getCategoryIds().isEmpty()) {
@@ -147,7 +160,10 @@ public class TattooArtistServiceImpl implements TattooArtistService {
         if (!tattooArtistRepository.existsById(tattooArtistId)) {
             throw new RuntimeException("Tattoo artist not found");
         }
-
+        Long authenticatedTattooArtistId = getAuthenticatedTattooArtistId();
+        if (!authenticatedTattooArtistId.equals(tattooArtistId)) {
+            throw new RuntimeException("You can only deelte your own profile");
+        }
         tattooArtistRepository.deleteById(tattooArtistId);
     }
 
@@ -158,6 +174,10 @@ public class TattooArtistServiceImpl implements TattooArtistService {
 
     @Override
     public TattooArtistResponse addPortifolioImages(Long tattooArtistId, List<MultipartFile> images){
+        Long authenticatedTattooArtistId = getAuthenticatedTattooArtistId();
+        if (!authenticatedTattooArtistId.equals(tattooArtistId)) {
+            throw new RuntimeException("You can only edit your own profile");
+        }
         TattooArtist tattooArtist = getTattooArtistById(tattooArtistId);
         tattooArtistImageService.uploadImages(images, tattooArtist);
 

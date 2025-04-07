@@ -22,7 +22,7 @@ public interface UserService {
 
     User getUserById(Long userId);
 
-    UserResponse editUser(Long userId, UpdateUserRequest request);
+    UserResponse editUser(Long userId, UpdateUserRequest request, MultipartFile profilePicture);
 
     void deleteUser(Long userId);
 }

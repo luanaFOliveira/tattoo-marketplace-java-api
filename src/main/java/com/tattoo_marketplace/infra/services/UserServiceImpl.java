@@ -105,13 +105,20 @@ public class UserServiceImpl implements UserService {
         .orElseThrow(() -> new EntityNotFoundException(String.format("Can't find user for id=%s", userId)));
     }
 
-    public UserResponse editUser(Long userId, UpdateUserRequest request) {
+    @Override
+    public UserResponse editUser(Long userId, UpdateUserRequest request, MultipartFile profilePicture) {
+        Long authenticatedUserId = getAuthenticatedUserId();
 
+        if (!authenticatedUserId.equals(userId)) {
+            throw new RuntimeException("You can only edit your own profile");
+        }
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("User not found"));
 
         userMapper.updateUserPartial(user,request);
-
+        if (profilePicture != null) {
+            saveProfileImage(user, profilePicture);
+        }
         if (request.getPassword() != null && request.getPasswordConfirm() != null) {
             assertPasswordsMatch(request);
             assignPassword(user, request.getPassword());
@@ -121,9 +128,17 @@ public class UserServiceImpl implements UserService {
         return userMapper.toResponse(userRepository.save(user));
     }
 
+    @Override
     public void deleteUser(Long userId) {
+        
         if (!userRepository.existsById(userId)) {
             throw new RuntimeException("User not found");
+        }
+
+        Long authenticatedUserId = getAuthenticatedUserId();
+        
+        if (!authenticatedUserId.equals(userId)) {
+            throw new RuntimeException("You can only delete your own profile");
         }
 
         userRepository.deleteById(userId);

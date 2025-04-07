@@ -75,16 +75,16 @@ public class UserController {
         return ResponseEntity.ok(registeredUser);
     }
 
-
-    // deve ser o proprio usuario para editar ele mesmo
-    @PutMapping("/{userId}")
+    
+    @PutMapping(value="/{userId}", consumes = {"multipart/form-data"})
     @Operation(summary = "Edit user", description = "Updates user details by id")
-    public ResponseEntity<UserResponse> editUser(@PathVariable Long userId, @Valid @RequestBody UpdateUserRequest request) {
-        UserResponse updatedUser = userService.editUser(userId, request);
+    public ResponseEntity<UserResponse> editUser(@PathVariable Long userId, @Valid @RequestPart UpdateUserRequest request, 
+                                                    @RequestPart(value = "profile_img", required = false) MultipartFile profilePicture
+    ) {
+        UserResponse updatedUser = userService.editUser(userId, request, profilePicture);
         return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
     }
 
-    // deve ser o proprio usuario para poder excluir sua conta
     @DeleteMapping("/{userId}")
     @Operation(summary = "Delete user", description = "Deletes a user by id. Must have admin role.")
     public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {

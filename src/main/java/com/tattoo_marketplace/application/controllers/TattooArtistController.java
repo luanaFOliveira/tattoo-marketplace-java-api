@@ -63,7 +63,6 @@ public class TattooArtistController {
         return ResponseEntity.status(HttpStatus.OK).body(tattoo_artists);
     }
 
-    // ver de fazer uma rota pra adicionar as imagens de portifolio - a imagem de perfil vem do registro de usuario basico
     @PostMapping(value="/register", consumes = {"multipart/form-data"})
     @Operation(summary = "Create a new tattoo artist", description = "Creates a new tattoo artist")
     public ResponseEntity<RegisterTattooArtistResponse> register(@RequestPart(value = "request") @Valid RegisterTattooArtistRequest request,
@@ -82,15 +81,15 @@ public class TattooArtistController {
         return ResponseEntity.status(HttpStatus.OK).body(updatedTattooArtist);
     }
 
-    // deve ser o proprio usuario para editar ele mesmo
-    @PutMapping("/{tattooArtistId}")
+    @PutMapping(value="/{tattooArtistId}", consumes = {"multipart/form-data"})
     @Operation(summary = "Edit tattoo artist", description = "Updates tattoo artist details by id")
-    public ResponseEntity<TattooArtistResponse> editTattooArtist(@PathVariable Long tattooArtistId, @Valid @RequestBody UpdateTattooArtistRequest request) {
-        TattooArtistResponse updatedTattooArtist = tattooArtistService.editTattooArtist(tattooArtistId, request);
+    public ResponseEntity<TattooArtistResponse> editTattooArtist(@PathVariable Long tattooArtistId, @Valid @RequestPart UpdateTattooArtistRequest request, 
+                                                                    @RequestPart(value = "profile_img", required = false) MultipartFile profilePicture
+    ) {
+        TattooArtistResponse updatedTattooArtist = tattooArtistService.editTattooArtist(tattooArtistId, request, profilePicture);
         return ResponseEntity.status(HttpStatus.OK).body(updatedTattooArtist);
     }
 
-    // deve ser o proprio usuario para poder excluir sua conta
     @DeleteMapping("/{tattooArtistId}")
     @Operation(summary = "Delete tattoo artist", description = "Deletes a tattoo artist by id.")
     public ResponseEntity<Void> deleteTattooArtist(@PathVariable Long tattooArtistId) {

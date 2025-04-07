@@ -23,7 +23,7 @@ public interface TattooArtistService {
 
     TattooArtistExtendedResponse getDetailedTattooArtistById(Long tattooArtistId);
 
-    TattooArtistResponse editTattooArtist(Long tattooArtistId, UpdateTattooArtistRequest request);
+    TattooArtistResponse editTattooArtist(Long tattooArtistId, UpdateTattooArtistRequest request, MultipartFile profilePicture);
 
     void deleteTattooArtist(Long tattooArtistId);
 }
