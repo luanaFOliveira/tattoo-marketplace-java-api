@@ -6,12 +6,14 @@ import com.tattoo_marketplace.application.dto.tattoo_artist.RegisterTattooArtist
 import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistExtendedResponse;
 import com.tattoo_marketplace.application.dto.tattoo_artist.UpdateTattooArtistRequest;
 import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistResponse;
+import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistFilter;
 import com.tattoo_marketplace.domain.entities.models.TattooArtist;
 import com.tattoo_marketplace.domain.entities.models.TattooArtistImage;
 import com.tattoo_marketplace.domain.entities.models.Category;
 import com.tattoo_marketplace.domain.repository.CategoryRepository;
 import com.tattoo_marketplace.domain.repository.TattooArtistRepository;
 import com.tattoo_marketplace.infra.mappers.TattooArtistMapper;
+import com.tattoo_marketplace.infra.specification.TattooArtistSpecification;
 import com.tattoo_marketplace.application.services.TattooArtistService;
 import com.tattoo_marketplace.application.services.TattooArtistImageService;
 import com.tattoo_marketplace.application.services.ImageService;
@@ -168,8 +170,9 @@ public class TattooArtistServiceImpl implements TattooArtistService {
     }
 
     @Override
-    public List<TattooArtistResponse> findAll() {
-        return tattooArtistMapper.toResponses(tattooArtistRepository.findAll());
+    public List<TattooArtistResponse> findAll(TattooArtistFilter filter) {
+        List<TattooArtist> result = tattooArtistRepository.findAll(new TattooArtistSpecification(filter));
+        return tattooArtistMapper.toResponses(result);
     }
 
     @Override

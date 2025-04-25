@@ -5,6 +5,7 @@ import com.tattoo_marketplace.application.dto.tattoo_artist.RegisterTattooArtist
 import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistResponse;
 import com.tattoo_marketplace.application.dto.tattoo_artist.UpdateTattooArtistRequest;
 import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistExtendedResponse;
+import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistFilter;
 import com.tattoo_marketplace.domain.entities.models.TattooArtist;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,7 +14,7 @@ public interface TattooArtistService {
 
     TattooArtistResponse getAuthenticatedTattooArtistResponse();
 
-    List<TattooArtistResponse> findAll();
+    List<TattooArtistResponse> findAll(TattooArtistFilter filter);
 
     RegisterTattooArtistResponse register(RegisterTattooArtistRequest request, MultipartFile profilePicture);
     

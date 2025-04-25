@@ -8,6 +8,7 @@ import com.tattoo_marketplace.application.dto.tattoo_artist.RegisterTattooArtist
 import com.tattoo_marketplace.application.dto.tattoo_artist.UpdateTattooArtistRequest;
 import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistResponse;
 import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistExtendedResponse;
+import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistFilter;
 import com.tattoo_marketplace.domain.entities.models.TattooArtist;
 import com.tattoo_marketplace.application.services.TattooArtistService;
 import com.tattoo_marketplace.infra.mappers.TattooArtistMapper;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @RequiredArgsConstructor
 @Tag(name = "Tattoo Artist Controller")
@@ -57,10 +59,11 @@ public class TattooArtistController {
 
     @GetMapping
     @Operation(summary = "Get all tattoo artists", description = "Get details of all registered tattoo artist")
-    public ResponseEntity<List<TattooArtistResponse>> allTattooArtists() {
-        List<TattooArtistResponse> tattoo_artists = tattooArtistService.findAll();
-
-        return ResponseEntity.status(HttpStatus.OK).body(tattoo_artists);
+    public ResponseEntity<List<TattooArtistResponse>> allTattooArtists(
+            @ModelAttribute TattooArtistFilter filter
+    ) {
+        List<TattooArtistResponse> tattoo_artists = tattooArtistService.findAll(filter);
+        return ResponseEntity.ok(tattoo_artists);
     }
 
     @PostMapping(value="/register", consumes = {"multipart/form-data"})
