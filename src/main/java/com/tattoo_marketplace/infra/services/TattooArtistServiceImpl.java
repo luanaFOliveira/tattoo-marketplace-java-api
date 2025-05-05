@@ -8,6 +8,7 @@ import com.tattoo_marketplace.application.dto.tattoo_artist.UpdateTattooArtistRe
 import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistResponse;
 import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistFilter;
 import com.tattoo_marketplace.domain.entities.models.TattooArtist;
+import com.tattoo_marketplace.domain.entities.models.User;
 import com.tattoo_marketplace.domain.entities.models.TattooArtistImage;
 import com.tattoo_marketplace.domain.entities.models.Category;
 import com.tattoo_marketplace.domain.repository.CategoryRepository;
@@ -57,14 +58,18 @@ public class TattooArtistServiceImpl implements TattooArtistService {
     @Override
     public TattooArtistResponse getAuthenticatedTattooArtistResponse() {
         Authentication authentication = getAuthentication();
-        TattooArtist tattooArtist = (TattooArtist) authentication.getPrincipal();
+        User user = (User) authentication.getPrincipal();
+
+        TattooArtist tattooArtist = tattooArtistRepository.findById(user.getId())
+            .orElseThrow(() -> new RuntimeException("Not a tattoo artist"));
+
         return tattooArtistMapper.toResponse(tattooArtist);
     }
 
     private Long getAuthenticatedTattooArtistId() {
         Authentication authentication = getAuthentication();
-
-        return ((TattooArtist) authentication.getPrincipal()).getId();
+        User user = (User) authentication.getPrincipal(); 
+        return user.getId();
     }
 
     private void assignPassword(TattooArtist tattoo_artist, String password) {
@@ -186,5 +191,10 @@ public class TattooArtistServiceImpl implements TattooArtistService {
         tattooArtistImageService.uploadImages(images, tattooArtist);
 
         return tattooArtistMapper.toResponse(tattooArtist);
+    }
+
+    @Override
+    public List<String> getTattooArtistCities() {
+        return tattooArtistRepository.findDistinctLocations();
     }
 }
