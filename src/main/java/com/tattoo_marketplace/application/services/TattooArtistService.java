@@ -27,4 +27,6 @@ public interface TattooArtistService {
     TattooArtistResponse editTattooArtist(Long tattooArtistId, UpdateTattooArtistRequest request, MultipartFile profilePicture);
 
     void deleteTattooArtist(Long tattooArtistId);
+
+    List<String> getTattooArtistCities();
 }

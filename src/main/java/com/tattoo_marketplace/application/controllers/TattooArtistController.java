@@ -57,6 +57,14 @@ public class TattooArtistController {
         return ResponseEntity.status(HttpStatus.OK).body(tattoo_artist);
     }
 
+    @GetMapping("/cities")
+    @Operation(summary = "Get tattoo artists avaiable cities", description = "Get avaiable cities of tattoo artists.")
+    public ResponseEntity<List<String>> tattooArtistCities() {
+        List<String> cities = tattooArtistService.getTattooArtistCities();
+
+        return ResponseEntity.status(HttpStatus.OK).body(cities);
+    }
+
     @GetMapping
     @Operation(summary = "Get all tattoo artists", description = "Get details of all registered tattoo artist")
     public ResponseEntity<List<TattooArtistResponse>> allTattooArtists(
