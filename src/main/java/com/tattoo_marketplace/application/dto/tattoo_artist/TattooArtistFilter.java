@@ -6,4 +6,6 @@ public class TattooArtistFilter {
     private String name;
     private String category;
     private String location;
+    private String sortBy;  
+    private String sortOrder;
 }

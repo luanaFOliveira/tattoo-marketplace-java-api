@@ -171,6 +171,7 @@ public class TattooArtistServiceImpl implements TattooArtistService {
 
     @Override
     public List<TattooArtistResponse> findAll(TattooArtistFilter filter) {
+    
         List<TattooArtist> result = tattooArtistRepository.findAll(new TattooArtistSpecification(filter));
         return tattooArtistMapper.toResponses(result);
     }

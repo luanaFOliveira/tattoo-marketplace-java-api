@@ -39,6 +39,14 @@ public class TattooArtistSpecification implements Specification<TattooArtist> {
             predicates.add(cb.equal(root.get("location"), filter.getLocation()));
         }
 
+        if (filter.getSortBy() != null) {
+            if ("desc".equalsIgnoreCase(filter.getSortOrder())) {
+                query.orderBy(cb.desc(root.get(filter.getSortBy())));
+            } else {
+                query.orderBy(cb.asc(root.get(filter.getSortBy())));
+            }
+        }
+
         return cb.and(predicates.toArray(new Predicate[0]));
     }
 }
