@@ -7,8 +7,9 @@ import java.util.Set;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class UpdateTattooArtistRequest extends UpdateUserRequest {
+public class RateTattooArtistRequest {
 
-    private Set<Long> categoryIds;  
+    @NotNull(message = "rate must be specified")
+    private Double rate;
+
 }

@@ -1,0 +1,2 @@
+ALTER TABLE public.tattoo_artists
+ALTER COLUMN rate TYPE DOUBLE PRECISION;

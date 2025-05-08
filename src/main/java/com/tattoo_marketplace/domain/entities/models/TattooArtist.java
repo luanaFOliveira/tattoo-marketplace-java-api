@@ -20,8 +20,14 @@ import jakarta.persistence.FetchType;
 @Entity(name = "tattoo_artists")
 public class TattooArtist extends User{
 
-    @Column(nullable = false)
-    private Integer rate;
+    @Column
+    private Double rate;
+
+    @Column
+    private Integer totalRatings = 0;
+
+    @Column
+    private Double sumOfRatings = 0.0;
 
     @ManyToMany
     @JoinTable(

@@ -1,5 +1,6 @@
 package com.tattoo_marketplace.application.services;
 
+import com.tattoo_marketplace.application.dto.tattoo_artist.RateTattooArtistRequest;
 import com.tattoo_marketplace.application.dto.tattoo_artist.RegisterTattooArtistRequest;
 import com.tattoo_marketplace.application.dto.tattoo_artist.RegisterTattooArtistResponse;
 import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistResponse;
@@ -29,4 +30,7 @@ public interface TattooArtistService {
     void deleteTattooArtist(Long tattooArtistId);
 
     List<String> getTattooArtistCities();
+
+    TattooArtistResponse rateTattooArtist(Long tattooArtistId, RateTattooArtistRequest request);
+
 }

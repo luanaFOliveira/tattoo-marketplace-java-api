@@ -5,6 +5,7 @@ import com.tattoo_marketplace.application.dto.tattoo_artist.RegisterTattooArtist
 import com.tattoo_marketplace.application.dto.tattoo_artist.RegisterTattooArtistResponse;
 import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistExtendedResponse;
 import com.tattoo_marketplace.application.dto.tattoo_artist.UpdateTattooArtistRequest;
+import com.tattoo_marketplace.application.dto.tattoo_artist.RateTattooArtistRequest;
 import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistResponse;
 import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistFilter;
 import com.tattoo_marketplace.domain.entities.models.TattooArtist;
@@ -196,5 +197,19 @@ public class TattooArtistServiceImpl implements TattooArtistService {
     @Override
     public List<String> getTattooArtistCities() {
         return tattooArtistRepository.findDistinctLocations();
+    }
+
+    @Override
+    public TattooArtistResponse rateTattooArtist(Long tattooArtistId, RateTattooArtistRequest request) {
+        TattooArtist tattooArtist = getTattooArtistById(tattooArtistId);
+        double newRating = request.getRate();
+        tattooArtist.setTotalRatings(tattooArtist.getTotalRatings() + 1);
+        tattooArtist.setSumOfRatings(tattooArtist.getSumOfRatings() + newRating);
+
+        double average = (double) tattooArtist.getSumOfRatings() / tattooArtist.getTotalRatings();
+        tattooArtist.setRate(average);
+
+        tattooArtistRepository.save(tattooArtist);
+        return tattooArtistMapper.toResponse(tattooArtist);
     }
 }

@@ -3,6 +3,7 @@ package com.tattoo_marketplace.application.controllers;
 import java.util.List;
 
 import com.tattoo_marketplace.application.dto.tattoo_artist.TattooArtistResponse;
+import com.tattoo_marketplace.application.dto.tattoo_artist.RateTattooArtistRequest;
 import com.tattoo_marketplace.application.dto.tattoo_artist.RegisterTattooArtistRequest;
 import com.tattoo_marketplace.application.dto.tattoo_artist.RegisterTattooArtistResponse;
 import com.tattoo_marketplace.application.dto.tattoo_artist.UpdateTattooArtistRequest;
@@ -98,6 +99,14 @@ public class TattooArtistController {
                                                                     @RequestPart(value = "profile_img", required = false) MultipartFile profilePicture
     ) {
         TattooArtistResponse updatedTattooArtist = tattooArtistService.editTattooArtist(tattooArtistId, request, profilePicture);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedTattooArtist);
+    }
+
+    @PutMapping(value="/rate/{tattooArtistId}")
+    @Operation(summary = "Rate tattoo artist", description = "Rates a tattoo artist by id")
+    public ResponseEntity<TattooArtistResponse> rateTattooArtist(@PathVariable Long tattooArtistId, @Valid @RequestBody RateTattooArtistRequest request) {
+
+        TattooArtistResponse updatedTattooArtist = tattooArtistService.rateTattooArtist(tattooArtistId, request);
         return ResponseEntity.status(HttpStatus.OK).body(updatedTattooArtist);
     }
 

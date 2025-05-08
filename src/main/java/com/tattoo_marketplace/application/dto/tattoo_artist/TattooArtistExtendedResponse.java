@@ -14,7 +14,7 @@ public record TattooArtistExtendedResponse(
         Integer age,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
-        Integer rate,
+        Double rate,
         Set<CategoryResponse> categories,
         List<String> images,
         String profilePicture

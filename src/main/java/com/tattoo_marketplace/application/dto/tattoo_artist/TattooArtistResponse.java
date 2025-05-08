@@ -13,7 +13,7 @@ public record TattooArtistResponse(
         String location,
         Integer age,
         String profilePicture,
-        Integer rate,
+        Double rate,
         Set<CategoryResponse> categories
 ){
 
