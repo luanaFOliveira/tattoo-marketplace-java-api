@@ -108,7 +108,6 @@ public class TattooArtistServiceImpl implements TattooArtistService {
         saveProfileImage(tattooArtist, profilePicture);
 
         TattooArtist savedTattooArtist = tattooArtistRepository.save(tattooArtist);
-        //tattooArtistImageService.uploadImages(images, savedTattooArtist); 
         
         return tattooArtistMapper.toRegisterResponse(savedTattooArtist);
     }

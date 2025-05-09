@@ -92,7 +92,4 @@ public class User implements UserDetails {
         return true;
     }
 
-    // public boolean isAdmin(){
-    //     return this.role.getName().name() == "ADMIN";
-    // }
 }
